@@ -25,7 +25,7 @@ function ContactForm({contacts, onSubmit}){
   
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())) {
+        if (contacts.find(contact => (contact.name.toLowerCase() === name.toLowerCase()) || (contact.number.toLowerCase() === number.toLowerCase()))) {
             return toast.info('This contact already in the addressbook')
         }
         onSubmit(name, number);
