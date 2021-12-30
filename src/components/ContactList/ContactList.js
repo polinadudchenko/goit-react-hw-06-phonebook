@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types';
 import s from './ContactList.module.css';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { deleteContact } from '../../redux/actions';
 import Contact from '../Contact';
 
 function ContactList({ contacts, onDeleteContact }) {
+
+  if (contacts.length === 0) {
+    toast.error('No matches are found');
+    return <></>
+  }
     
   return (!(contacts.length === 0) && <table className={s.contact_list} >
     <thead className={s.contact_list__head}>
