@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { addContact } from '../../redux/actions'
+import { toast } from 'react-toastify';
 import PropTypes from 'prop-types'
 import s from './ContactForm.module.css'
 
-function ContactForm({onSubmit}){
+function ContactForm({contacts, onSubmit}){
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     
@@ -24,7 +25,7 @@ function ContactForm({onSubmit}){
   
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(name, number);
+        onSubmit(name, number, contacts);
         reset();
     }
     
@@ -69,8 +70,17 @@ ContactForm.propTypes = {
         onSubmit: PropTypes.func.isRequired,
 }
 
-const mapDispatchtoProps = dispatch => ({
-  onSubmit: (name, number) => dispatch(addContact(name, number)),
+const mapStateToProps = state => ({
+    contacts: state.contacts
 });
 
-export default connect(null, mapDispatchtoProps)(ContactForm)
+const mapDispatchtoProps = dispatch => ({
+    onSubmit: (name, number, contacts) => {
+        if (contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())) {
+            return toast.info('This contact already in the addressbook')
+        }
+        dispatch(addContact(name, number))
+    },
+});
+
+export default connect(mapStateToProps, mapDispatchtoProps)(ContactForm)

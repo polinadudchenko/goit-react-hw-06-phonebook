@@ -1,12 +1,8 @@
-import { useEffect, useState, useMemo } from 'react';
 import { connect } from 'react-redux';
-//import { v1 as uuidv1 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import debounce from 'lodash.debounce';
 import 'react-toastify/dist/ReactToastify.css';
-import { DELETE } from './redux/types';
 import s from './App.module.css';
-import { useLocalStorage } from './utils/hooks/useLocalStorage';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter'
@@ -61,10 +57,7 @@ function App({contacts}) {
             :
             <>
             <Filter/>
-            {!(contacts.length === 0)
-              &&
-              <ContactList /> 
-            }
+            <ContactList /> 
             </>
           }
         </Section>
@@ -74,16 +67,8 @@ function App({contacts}) {
   )
 }
 
-const getVisibleContacts = (contacts, filter) => {
-  const normalizedFilter = filter.toLowerCase().trim();
-
-  return contacts.filter(({ name }) =>
-    name.toLowerCase().includes(normalizedFilter),
-  );
-};
-
-const mapStateToProps = ({ contacts, filter }) => ({
-  contacts: getVisibleContacts(contacts, filter),
+const mapStateToProps = ({ contacts }) => ({
+  contacts
 });
 
 export default connect(mapStateToProps)(App);
