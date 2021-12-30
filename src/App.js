@@ -34,8 +34,8 @@ function App({contacts}) {
   )
 }
 
-const mapStateToProps = ({ contacts }) => ({
-  contacts
+const mapStateToProps = state => ({
+  contacts: state.contacts
 });
 
 export default connect(mapStateToProps)(App);
